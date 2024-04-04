@@ -1,18 +1,20 @@
 {
-  "name": "study-node",
+  "name": "clase-2",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "1.http.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev:1": "nodemon 1.http.js",
+    "dev:2": "nodemon 2.routting.js",
+    "dev:3": "node --watch 3.express.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "standard": "^17.1.0"
+    "nodemon": "^3.0.1"
   },
-  "eslintConfig": {
-    "extends": "standard"
+  "dependencies": {
+    "express": "4.18.2"
   }
 }
