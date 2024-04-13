@@ -12,7 +12,7 @@ const movieSchema = z.object({
     poster: z.string().url({
         message: 'Poster must be a valid URL'
     }),
-    genre: z.array(z.enum(['Action', 'Adventure', 'Crime', 'Comedy', 'Drama', 'Fantasy', 'Horror', 'Thriller', 'Sci-Fi']),
+    genre: z.array(z.enum(['Action','Crime', 'Adventure', 'Crime', 'Comedy', 'Drama', 'Fantasy', 'Horror', 'Thriller', 'Sci-Fi']),
     {
       required_error: 'Movie genre is required.',
       invalid_type_error: 'Movie genre must be an array of enum Genre'
@@ -23,8 +23,12 @@ const movieSchema = z.object({
 function validateMovie(object){
     return movieSchema.safeParse(object)
 }
+//la opcion partial hace que las prop sean opcionales, si  noe stan no pasa na
+function validatePartialMovie(input){
+    return movieSchema.partial().safeParse(input)
+}
 
 module.exports = {
     validateMovie,
-    movieSchema
+    validatePartialMovie
 }
