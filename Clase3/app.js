@@ -8,9 +8,24 @@ const { validateMovie, movieSchema, validatePartialMovie } = require('./schemas/
 const app = express()
 app.use(express.json())
 app.disable('x-powered-by')
+//res.header('Acces-Control-Allow-Methods', 'GET,POST, PATCH, DELETE')
+
+const ACCEPTED_ORIGINS = [
+    'http://localhost:1234',
+    'http://localhost:8080',
+    'https://movies.com'
+]
 
 //todos los recursos que sean movies se idetifican con /movies
 app.get('/movies',(req,res)=>{
+
+    const origin = req.header('origin')
+    if (ACCEPTED_ORIGINS.includes(origin) || !origin){
+        res.header('Access-Control-Allow-Origin', origin)
+    }
+    
+    //res.header('Acces-Control-Allow-Methods', 'GET,POST, PATCH, DELETE')
+
     const {genre} = req.query
     if (genre) {
         const filteredMovies = movies.filter(
@@ -47,6 +62,19 @@ app.post('/movies',(req,res) =>{
     
     res.status(201).json(newMovie)
 })
+
+app.delete('/movies/:id', (req, res) => {
+    const { id } = req.params
+    const movieIndex = movies.findIndex(movie => movie.id === id)
+  
+    if (movieIndex === -1) {
+      return res.status(404).json({ message: 'Movie not found' })
+    }
+  
+    movies.splice(movieIndex, 1)
+  
+    return res.json({ message: 'Movie deleted' })
+  })
 
 app.patch('/movies/:id', (req,res) =>{
     const result = validatePartialMovie(req.body)
